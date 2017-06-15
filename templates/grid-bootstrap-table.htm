@@ -1,0 +1,19 @@
+<!-- Grid -->
+<table class="table table-hover" data-bind="attr:{id:gridId}">
+    <!-- grid header -->
+    <thead>
+        <tr class="bg-primary grid-header" data-bind="foreach: columns">
+            <th class="grid-th" data-bind="gridTh:{'col':$data}"></th>
+        </tr>
+    </thead>
+    <!-- grid data -->
+    <tbody data-bind="foreach: rows">
+        <tr data-bind="foreach: $parent.columns">
+            <td data-bind="html: $parent[$data], attr:{'class':$parents[1].styleTd($data)}"></td>
+        </tr>
+    </tbody>
+    <!-- grid pager -->
+    <tfoot>
+        <tr><td colspan="100%"><grid-bootstrap-pager params="parent:Pager"></grid-pager></td></tr>
+    </tfoot>
+</table>

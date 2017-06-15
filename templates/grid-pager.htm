@@ -1,0 +1,11 @@
+<p class='text-right' data-bind='text: labelTotalRecords(), visible: lastPage()==0'></p>
+<table border="1" cellpadding="10">
+    <tr style='text-align: right;' data-bind='visible: lastPage() > 0'>
+        <td class='' data-bind='text: labelTotalRecords()'></td>
+        <td><a data-bind='click: gotoFirst, css:{disabled: !hasPrevious(), pointer: hasPrevious()}'>First</a></td>
+        <td><a data-bind='click: gotoPrevious, css:{disabled: !hasPrevious(), pointer: hasPrevious()}'>Previous</a></td>
+        <td data-bind='text: labelTotalPages()'></td>
+        <td><a data-bind='click: gotoNext, css:{disabled: !hasNext(), pointer: hasNext()}'>Next</a></td>
+        <td><a data-bind='click: gotoLast, css:{disabled: !hasNext(), pointer: hasNext()}'>Last</td>
+    </tr>
+</table>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basic example 01</title>
+    <meta charset="utf-8" />
+    <!-- load jquery, bootstrap & knockout from CDN -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script src="lib/bugMe.js"></script>
+    <style type="text/css">
+        .pointer {cursor: pointer;}
+    </style>
+</head>
+<body>
+
+	<div class="container" id="myGrid">
+        <h2>Bootstrap example</h2>
+        <p>DIV table</p>
+    
+        <!-- Grid filter -->
+		<div class="panel panel-default">
+		    <div class="panel-body">
+		        <form class="form-inline" id="filter">
+		            <input type="text" class="form-control" placeholder="Country" data-bind="value: Filter.data.name, valueUpdate: 'afterkeydown'">
+		            <button class="btn btn-default" data-bind="click: Filter.reset">Reset</button>
+		        </form>
+		    </div>
+		</div>
+         <!-- Grid -->
+		<div data-bind="lazy-template:'templates/grid-bootstrap-divTable.htm', data: $data"></div>
+	</div>
+    
+    
+    <script>
+        var config = {
+        	    "header": {
+        	        "id": "Id",
+        	        "name": "Name",
+        	        "native": "Original",
+        	        "actions": '<span onClick="gridCountry.event.reload()" class="glyphicon glyphicon-refresh pointer" data-toggle="tooltip" title="Refresh"></span>',
+        	    },
+        	    "display": {
+        	        "id":{"css":"col-sm-1"},
+        	        "name":{"css":"col-sm-4"},
+        	        "native":{"css":"col-sm-4"},
+        	        "actions":{"css":"col-sm-2 text-right", "html": function(row){
+        	            var btnEdit   = '<a href="#edit/' + row.id + '" id="edit_' + row.id + '" data-toggle="tooltip" title="Edit"><span class="glyphicon glyphicon-pencil pointer" /></a>',
+        	                btnRemove = '<a href="#remove/' + row.id + '" id="del_' + row.id + '" data-toggle="tooltip" title="Remove"><span class="glyphicon glyphicon-remove pointer" /></a>';
+        	            return btnEdit + ' ' + btnRemove;
+        	        }}
+        	    },
+        	    "filter": {
+        	        "name": {
+        	            initialValue: "",
+        	            fnFilter: function (row, filterValue) { 
+        	                var name = row.name.toUpperCase(),
+        	                    native = row.native.toUpperCase(), 
+        	                    search = jQuery.trim(filterValue.toUpperCase());
+        	                if ((name===null || name===undefined || name==="") && (native===null || native===undefined || native==="")) return false;
+        	                return (name.indexOf(search) !== -1 || native.indexOf(search) !== -1) ? true : false; 
+        	            }
+        	        }
+        	    },
+        	    "sort": {"column":'id', "asc": true},
+        		"pager": {"pagerSize":25},
+        		"records": function(callback){
+        		    $.getJSON('json/countries2.json', function (json) {
+       	            callback(json);
+       	         });
+       		    }
+        };
+        var gridCountry = new me.grid.Builder(config);
+        ko.applyBindings(gridCountry, document.getElementById('grid1'));
+    </script>
+    
+
+</body>
+</html>

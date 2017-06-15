@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- load jquery & knockout from CDN -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script src="lib/bugMe.js"></script>
+    <style type="text/css">
+        .pointer {cursor: pointer;}
+    </style>
+</head>
+<body>
+
+    <p>Add a filter<br>
+        Plese note: <b>xxx</b> is present in the filter code (<i>data-bind="value: Filter.data.<b>xxx</b>, ..."</i>) and inside the configutation (<i>config.filter.<b>xxx</b></i>).<br>
+        The configuration is an object with 2 key:  initialValue &amp; fnFilter.<br>
+        initialValue is the initial value, could be anything (ussually an empty string).<br>
+        fnFilter is a comparison function that will be executed as many times as rows are present in the array.<br>
+        fnFilter accept 2 parameters (row, filterValue) and return a boolean value (true or false).<br>
+        <a href="example-07.html">example 7</a>
+    </p>
+    <div id="myGrid">
+        <!-- Grid filter -->
+            <form id="filter">
+                <input type="text" placeholder="Country" data-bind="value: Filter.data.name, valueUpdate: 'afterkeydown'">
+                <button data-bind="click: Filter.reset">Reset</button>
+            </form>
+         <!-- Grid -->
+        <div data-bind="lazy-template:'templates/grid-table.htm', data: $data"></div>
+    </div>
+    
+    <script>
+        var config = {
+        	    "header": {
+        	        "id": "Id",
+        	        "name": "Name",
+        	        "native": "Original",
+        	    },
+        	    "display": {
+        	        "id":{"style":"width:10px"},
+        	        "name":{"style":"width:40%"},
+        	        "native":{"style":"width:40%"}
+        	    },
+        	    "filter": {
+        	        "name": {
+        	            initialValue: "",
+        	            fnFilter: function (row, filterValue) { 
+        	                var name = row.name.toUpperCase(),
+        	                    native = row.native.toUpperCase(), 
+        	                    search = jQuery.trim(filterValue.toUpperCase());
+        	                if ((name===null || name===undefined || name==="") && (native===null || native===undefined || native==="")) return false;
+        	                return (name.indexOf(search) !== -1 || native.indexOf(search) !== -1) ? true : false; 
+        	            }
+        	        }
+        	    },
+        	    "sort": {"column":'id', "asc": true},
+        		"pager": {"pagerSize":25},
+        		"records": function(callback){
+        		    $.getJSON('json/countries2.json', function (json) {
+       	            callback(json);
+       	         });
+       		    }
+        };
+        var gridCountry = new me.grid.Builder(config);
+        ko.applyBindings(gridCountry, document.getElementById('grid1'));
+    </script>
+    
+
+</body>
+</html>

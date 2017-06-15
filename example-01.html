@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!-- load jquery & knockout from CDN -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script src="lib/bugMe.js"></script>
+    <style type="text/css">
+        .pointer {cursor: pointer;}
+    </style>
+</head>
+<body>
+
+    <p>Load a json and put it into a table <a href="example-02.html">example 2</a></p>
+    <div id="myGrid">
+        <div data-bind="lazy-template:'templates/grid-table.htm', data: $data"></div>
+    </div>
+    
+    <script>
+        var config = {
+       	    "records": function(callback){
+       	        $.getJSON('json/countries2.json', function (json) {
+       	            callback(json);
+       	        });
+       	    }        		
+        };
+        var gridCountry = new me.grid.Builder(config);
+        ko.applyBindings(gridCountry, document.getElementById('grid1'));
+    </script>
+    
+
+</body>
+</html>

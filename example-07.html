@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!-- load jquery & knockout from CDN -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script src="lib/bugMe.js"></script>
+    <style type="text/css">
+        .pointer {cursor: pointer;}
+    </style>
+</head>
+<body>
+
+    <p>Add a virtual column (in the header) to reload table data. <a href="example-08.html">example 8</a> </p>
+    <div id="myGrid">
+        <!-- Grid filter -->
+            <form id="filter">
+                <input type="text" placeholder="Country" data-bind="value: Filter.data.name, valueUpdate: 'afterkeydown'">
+                <button data-bind="click: Filter.reset">Reset</button>
+            </form>
+         <!-- Grid -->
+        <div data-bind="lazy-template:'templates/grid-table.htm', data: $data"></div>
+    </div>
+    
+    <script>
+        var config = {
+        	    "header": {
+        	        "id": "Id",
+        	        "name": "Name",
+        	        "native": "Original",
+        	        "actions": '<span onClick="gridCountry.event.reload()" class="pointer" title="Reload data">Refresh</span>',
+        	    },
+        	    "display": {
+        	        "id":{"style":"width:10px"},
+        	        "name":{"style":"width:40%"},
+        	        "native":{"style":"width:40%"},
+        	        "actions":{"html": "&nbsp;"}
+        	    },
+        	    "filter": {
+        	        "name": {
+        	            initialValue: "",
+        	            fnFilter: function (row, filterValue) { 
+        	                var name = row.name.toUpperCase(),
+        	                    native = row.native.toUpperCase(), 
+        	                    search = jQuery.trim(filterValue.toUpperCase());
+        	                if ((name===null || name===undefined || name==="") && (native===null || native===undefined || native==="")) return false;
+        	                return (name.indexOf(search) !== -1 || native.indexOf(search) !== -1) ? true : false; 
+        	            }
+        	        }
+        	    },
+        	    "sort": {"column":'id', "asc": true},
+        		"pager": {"pagerSize":25},
+        		"records": function(callback){
+        		    $.getJSON('json/countries2.json', function (json) {
+       	            callback(json);
+       	         });
+       		    }
+        };
+        var gridCountry = new me.grid.Builder(config);
+        ko.applyBindings(gridCountry, document.getElementById('grid1'));
+    </script>
+    
+
+</body>
+</html>

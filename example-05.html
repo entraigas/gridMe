@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!-- load jquery & knockout from CDN -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script src="lib/bugMe.js"></script>
+    <style type="text/css">
+        .pointer {cursor: pointer;}
+    </style>
+</head>
+<body>
+
+    <p>Add sorting to the colums header (by default sorted by id) <a href="example-06.html">example 6</a></p>
+    <div id="myGrid">
+        <div data-bind="lazy-template:'templates/grid-table.htm', data: $data"></div>
+    </div>
+    
+    <script>
+        var config = {
+        	    "header": {
+        	        "id": "Id",
+        	        "name": "Name",
+        	        "native": "Original",
+        	    },
+        	    "display": {
+        	        "id":{"style":"width:10px"},
+        	        "name":{"style":"width:40%"},
+        	        "native":{"style":"width:40%"}
+        	    },
+        	    "sort": {"column":'id', "asc": true},
+        		"pager": {"pagerSize":25},
+        		"records": function(callback){
+        		    $.getJSON('json/countries2.json', function (json) {
+       	            callback(json);
+       	         });
+       		    }
+        };
+        var gridCountry = new me.grid.Builder(config);
+        ko.applyBindings(gridCountry, document.getElementById('grid1'));
+    </script>
+    
+
+</body>
+</html>

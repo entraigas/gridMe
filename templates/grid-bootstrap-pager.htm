@@ -1,0 +1,9 @@
+<p class='text-right' data-bind='text: labelTotalRecords(), visible: lastPage()==0'></p>
+<ul class='pager' style='text-align: right;' data-bind='visible: lastPage() > 0'>
+    <span class='' data-bind='text: labelTotalRecords()'></span>
+    <li><a data-bind='click: gotoFirst, css:{disabled: !hasPrevious(), pointer: hasPrevious()}' title='First'><span class='glyphicon glyphicon-step-backward' /></a></li>
+    <li><a data-bind='click: gotoPrevious, css:{disabled: !hasPrevious(), pointer: hasPrevious()}' title='Previous'><span class='glyphicon glyphicon-chevron-left' /></a></li>
+    <span class='glyphicon' data-bind='text: labelTotalPages()'></span>
+    <li><a data-bind='click: gotoNext, css:{disabled: !hasNext(), pointer: hasNext()}' title='Next'><span class='glyphicon glyphicon-chevron-right' /></a></li>
+    <li><a data-bind='click: gotoLast, css:{disabled: !hasNext(), pointer: hasNext()}' title='Last'><span class='glyphicon glyphicon-step-forward' /></a></li>
+</ul>

@@ -1,0 +1,15 @@
+<!-- Grid -->
+<div data-bind="attr:{id:gridId}">
+    <!-- grid header -->
+    <div class="row bg-primary grid-header" data-bind="foreach: columns">
+        <div class="grid-th" data-bind="gridTh:{'col':$data}"></div>
+    </div>
+    <!-- grid data -->
+    <div data-bind="foreach: rows">
+        <div class="row" data-bind="foreach: $parent.columns">
+            <div data-bind="html: $parent[$data], attr:{'class':$parents[1].styleTd($data)}"></div>
+        </div>
+    </div>
+    <!-- grid pager -->
+    <grid-bootstrap-pager params="parent:Pager"></grid-pager>
+</div>

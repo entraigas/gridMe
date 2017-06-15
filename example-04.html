@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <!-- load jquery & knockout from CDN -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script src="lib/bugMe.js"></script>
+    <style type="text/css">
+        .pointer {cursor: pointer;}
+    </style>
+</head>
+<body>
+
+    <p>Display only some columns and change the header <a href="example-05.html">example 5</a></p>
+    <div id="myGrid">
+        <div data-bind="lazy-template:'templates/grid-table.htm', data: $data"></div>
+    </div>
+    
+    <script>
+        var config = {
+        	    "header": {
+        	        "id": "Id",
+        	        "name": "Name",
+        	        "native": "Original",
+        	    },
+        	    "display": {
+        	        "id":{"style":"width:10px"},
+        	        "name":{"style":"width:40%"},
+        	        "native":{"style":"width:40%"}
+        	    },
+        		"pager": {"pagerSize":25},
+        		"records": function(callback){
+        		    $.getJSON('json/countries2.json', function (json) {
+       	            callback(json);
+       	         });
+       		    }
+        };
+        var gridCountry = new me.grid.Builder(config);
+        ko.applyBindings(gridCountry, document.getElementById('grid1'));
+    </script>
+    
+
+</body>
+</html>
