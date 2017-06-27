@@ -12,7 +12,7 @@
 </head>
 <body>
 
-    <p>Load a json and put it into a table <a href="example-02.html">example 2</a></p>
+    <p>Load a json and put it into a table. <a href="example-02.html">example 2</a></p>
     <div id="myGrid">
         <div data-bind="lazy-template:'templates/grid-table.htm', data: $data"></div>
     </div>
@@ -26,7 +26,7 @@
        	    }        		
         };
         var gridCountry = new me.grid.Builder(config);
-        ko.applyBindings(gridCountry, document.getElementById('grid1'));
+        ko.applyBindings(gridCountry, document.getElementById('myGrid'));
     </script>
     
 
